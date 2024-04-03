@@ -27,4 +27,13 @@ public class ProductService {
 
         return product;
     }
+
+    public void deleteProduct(String id){
+        int idInt = Integer.parseInt(id);
+
+        Product product = new Product(idInt,null,0.0);
+
+        DAOFactory.getProductDAO().delete(product);
+
+    }
 }

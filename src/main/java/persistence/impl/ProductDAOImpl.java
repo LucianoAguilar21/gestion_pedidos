@@ -68,7 +68,19 @@ public class ProductDAOImpl implements ProductDAO {
 
     @Override
     public int delete(Product product) {
-        return 0;
+        try {
+            String sql = "DELETE FROM products WHERE id = ?";
+            Connection conn = ConnectionProvider.getConnection();
+
+            PreparedStatement st = conn.prepareStatement(sql);
+            st.setInt(1, product.getId());
+            int rs = st.executeUpdate();
+
+            return rs;
+        } catch (SQLException e) {
+            throw new MissingDataException(e.getMessage());
+        }
+
     }
 
     @Override

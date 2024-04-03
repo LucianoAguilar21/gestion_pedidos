@@ -69,33 +69,36 @@
                         <td> <c:out value="${product.getId()}"></c:out> </td>
                         <td> <c:out value="${product.getName()}"></c:out> </td>
                         <td> <c:out value="${product.getPrice()}"></c:out> </td>
-                        <td> <a class="btn btn-sm btn-primary"><i class="fa-solid fa-pen-to-square " ></i></a><a class="btn btn-sm btn-danger mx-2" data-bs-toggle="modal" data-bs-target="#deleteModal"> <i class="fa-solid fa-trash"></i> </a> </td>
+                        <td> <a class="btn btn-sm btn-primary"><i class="fa-solid fa-pen-to-square " ></i></a><a class="btn btn-sm btn-danger mx-2" data-bs-toggle="modal" data-bs-target="#${product.getId()}"> <i class="fa-solid fa-trash"></i> </a> </td>
 
                     </tr>
+                    <!-- DELETE MODAL -->
+                                <div class="modal fade" id="${product.getId()}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h3 class="text-center">¿ESTAS SEGURO DE QUE DESEA ELIMINAR ESTE PRODUCTO?</h3>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body d-flex justify-content-center">
+                                        <button type="button" class="btn btn-secondary mx-3" data-bs-dismiss="modal">Cerrar</button>
+                                        <form action="./deleteProduct?id=${product.getId()}" method="POST">
+                                            <button type="submit" class="btn btn-warning" >Aceptar</button>
+                                        </form>
+                                      </div>
+                                      <div class="modal-footer">
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                 </c:forEach>
               </tbody>
             </table>
 
             </div>
 
-            <!-- DELETE MODAL -->
-            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Esta a punto de eliminar un producto</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <h3>¿ESTAS SEGURO DE QUE DESEA ELIMINAR ESTE PRODUCTO?</h3>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Aceptar</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+
         </c:when>
         <c:otherwise>
             <h3 class="text-danger">Por favor ingrear al sistema</h3>

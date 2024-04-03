@@ -25,6 +25,19 @@ public class GetProductsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String msg = req.getParameter("msg");
+
+        if ("success".equals(msg)) {
+            req.setAttribute("productMsg", "El producto se agregó correctamente");
+        } else if ("error".equals(msg)) {
+            req.setAttribute("productError", "Los datos ingresados son incorrectos");
+        }else if("deleteSuccess".equals(msg)){
+            req.setAttribute("productError", "El producto se ha eliminado");
+        } else if ("deleteError".equals(msg)) {
+            req.setAttribute("productError", "Error al eliminar el producto");
+        }
+
         List<Product> products = productService.getAllProducts();
 
         req.setAttribute("products",products);
@@ -45,29 +58,11 @@ public class GetProductsServlet extends HttpServlet {
         System.out.println(product);
 
         if (product.isValid()) {
-            req.setAttribute("productMsg", "El producto se agrego correctamente");
-
-            List<Product> productList = productService.getAllProducts();
-
-            req.setAttribute("products", productList);
-
-            RequestDispatcher dispatcher = getServletContext()
-                    .getRequestDispatcher("/views/products.jsp");
-            dispatcher.forward(req, resp);
-
-
-
+            resp.sendRedirect(req.getContextPath() + "/products?msg=success");
         } else {
-            req.setAttribute("productError", "Los datos ingresados son incorrectos");
-
-            List<Product> productList = productService.getAllProducts();
-
-            req.setAttribute("products", productList);
-
-
-            RequestDispatcher dispatcher = getServletContext()
-                    .getRequestDispatcher("/views/products.jsp");
-            dispatcher.forward(req, resp);
+            resp.sendRedirect(req.getContextPath() + "/products?msg=error");
         }
     }
+
+
 }

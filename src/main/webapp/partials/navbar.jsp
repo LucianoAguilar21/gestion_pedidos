@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-lg  navbar-light bg-danger p-2" >
   <div class="container-fluid ">
-    <a class="navbar-brand text-light" href="#">Gestion Elena </a>
+    <a class="navbar-brand text-light" href="./home">Gestion Elena </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -12,7 +12,7 @@
           <a class="nav-link text-light " aria-current="page" href="#">Pedidos</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-light " href="/GestionPedidos/products">Productos</a>
+          <a class="nav-link text-light " href="./products">Productos</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-light " href="#">Borrados</a>
