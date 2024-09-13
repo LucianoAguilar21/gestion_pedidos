@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'password'=> password_hash('123123', PASSWORD_BCRYPT)
         ]);
         Product::factory(10)->create();
         Customer::factory(1)->create();

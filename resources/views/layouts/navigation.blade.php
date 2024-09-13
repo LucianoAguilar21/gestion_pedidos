@@ -1,3 +1,9 @@
+@if(session('status'))                                         
+    <div class="bg-green-500 p-2 text-center text-green-100 font-bold">{{__(session('status'))}}</div>
+@endif
+@if(session('failed'))                                         
+    <div class="bg-red-600 p-2 text-center text-red-100 font-bold">{{__(session('failed'))}}</div>
+@endif
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -14,6 +20,10 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('products')" :active="request()->routeIs('products*')">
+                        {{ __('Products') }}
                     </x-nav-link>
                 </div>
             </div>

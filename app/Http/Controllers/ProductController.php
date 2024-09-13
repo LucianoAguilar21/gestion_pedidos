@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -12,7 +13,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth::user();
+        $products = $user->products;
+        return view('products.index')->with(['products'=>$products]);
     }
 
     /**
@@ -20,7 +23,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('products.create');
     }
 
     /**
@@ -28,7 +31,14 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' =>['required','min:3'],
+            'price' => ['required','numeric','gt:0']
+        ]);
+
+        $request->user()->products()->create($validated);
+
+        return to_route('products')->with('status',_('¡Product created Successfully'));
     }
 
     /**
@@ -36,7 +46,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('products.show')->with(['product'=>$product]);
     }
 
     /**
@@ -44,7 +54,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        return view('products.edit')->with(['product'=>$product]);
     }
 
     /**
@@ -52,7 +62,18 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $validated = $request->validate([
+            'name' =>['required','min:3','unique:products,name,'. $product->id],
+            'price' => ['required','numeric','gt:0']
+        ]);
+
+        if($product->update($validated)){        
+            return to_route('products')->with('status',__('¡Product updated Successfully'));
+        }else{
+            return to_route('products.edit', $product)->with('failed',__('¡Product updated Failed'));
+        }
+        
+
     }
 
     /**
@@ -60,6 +81,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return to_route('products')->with(['status'=>__('Product deleted')]);
     }
 }

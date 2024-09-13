@@ -18,7 +18,7 @@ class ProductFactory extends Factory
     {
         return [
             'user_id'=>1,
-            'name' =>fake()->text(),            
+            'name' =>fake()->name(),            
             'price' => fake()->randomFloat(1,20,30)
         ];
     }
