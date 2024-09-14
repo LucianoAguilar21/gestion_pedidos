@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
 {
@@ -13,9 +14,14 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $products = $user->products;
-        return view('products.index')->with(['products'=>$products]);
+        if(Auth::user()){
+            $user = Auth::user();
+
+            $products = $user->products;
+            return view('products.index')->with(['products'=>$products]);
+        }else{
+            return view('not-found.page-not-found');
+        }
     }
 
     /**
@@ -46,7 +52,12 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('products.show')->with(['product'=>$product]);
+     
+        if(Gate::authorize('view', $product)){
+            return view('products.show')->with(['product'=>$product]);
+        }else{
+            return route('products');
+        }
     }
 
     /**
@@ -54,7 +65,14 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('products.edit')->with(['product'=>$product]);
+        $response = Gate::authorize('update', $product);
+        if($response->allowed()){
+
+            return view('products.edit')->with(['product'=>$product]);
+        }else{
+            return route('products');
+        }
+      
     }
 
     /**
