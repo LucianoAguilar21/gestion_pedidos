@@ -38,7 +38,16 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' =>['required','min:3'],
+            'last_name' => ['min:3'],
+            'phone' => ['min:3'],
+            'email' => ['min:3'],
+        ]);
+
+        $request->user()->customers()->create($validated);
+
+        return to_route('customers')->with('status',_('Customer added Successfully'));
     }
 
     /**
@@ -54,7 +63,7 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return view('customers.edit')->with(['customer'=>$customer]);
     }
 
     /**
@@ -62,7 +71,19 @@ class CustomerController extends Controller
      */
     public function update(Request $request, Customer $customer)
     {
-        //
+        $validated = $request->validate([
+            'name' =>['required','min:3'],
+            'last_name' =>[],
+            'phone' =>['min:3'],
+            'email' =>['min:3'],
+            
+        ]);
+
+        if($customer->update($validated)){        
+            return to_route('customers')->with('status',__('¡Customer updated Successfully'));
+        }else{
+            return to_route('customers.edit', $customer)->with('failed',__('Customer updated Failed'));
+        }
     }
 
     /**
@@ -70,6 +91,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        //
+        $customer->delete();
+        return to_route('customers')->with(['status'=>__('Customer deleted')]);
     }
 }

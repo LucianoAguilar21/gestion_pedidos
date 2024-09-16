@@ -13,7 +13,7 @@
                         @csrf                    
                         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                             <div class="sm:col-span-4">
-                                <label for="Name" class="block text-sm font-medium leading-4 text-gray-900">Customer Name</label>
+                                <label for="name" class="block text-sm font-medium leading-4 text-gray-900">Customer Name</label>
                                 <div class="mt-2">
                                   <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">                                    
                                     <input type="text" name="name" id="name" 
@@ -26,11 +26,11 @@
                             </div>
 
                             <div class="sm:col-span-4">
-                                <label for="lastname" class="block text-sm font-medium leading-4 text-gray-900">Customer Lastname</label>
+                                <label for="last_name" class="block text-sm font-medium leading-4 text-gray-900">Customer Lastname</label>
                                 <div class="mt-2">
                                   <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">                                    
-                                    <input type="text" name="lastname" id="lastname" autocomplete="lastname" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" 
-                                    placeholder="Example: Rodriguez" value="{{old('lastname')}}"">
+                                    <input type="text" name="last_name" id="last_name" autocomplete="last_name" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" 
+                                    placeholder="Example: Rodriguez" value="{{old('last_name')}}"">
                                 </div>
                                     <x-input-error :messages="$errors->get('lastname')"/>
                                 </div>
@@ -54,7 +54,7 @@
                                     <input type="text" name="email" id="email" autocomplete="email" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" 
                                     placeholder="Exampe: jose@gmail.com" value="{{old('email')}}"">
                                 </div>
-                                    <x-input-error :messages="$errors->get('phone')"/>
+                                    <x-input-error :messages="$errors->get('email')"/>
                                 </div>
                             </div>
                         </div>
