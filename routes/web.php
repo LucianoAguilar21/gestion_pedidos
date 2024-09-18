@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,16 @@ Route::get('/customers/{customer}/edit',[CustomerController::class,'edit'])->nam
 Route::put('/customers/{customer}',[CustomerController::class,'update'])->name('customers.update');
 Route::delete('/customers/{customer}/destroy',[CustomerController::class,'destroy'])->name('customers.destroy');
 Route::post('/customers/store',[CustomerController::class,'store'])->name('customers.store');
+
+// ORDERS
+Route::get('/orders', [OrderController::class, 'index'])->name('orders');
+Route::get('/orders/create',[OrderController::class,'create'])->name('orders.create');
+Route::get('/orders/{order}/show',[OrderController::class,'show'])->name('orders.show');
+Route::get('/orders/{order}/edit',[OrderController::class,'edit'])->name('orders.edit');
+Route::put('/orders/{order}',[OrderController::class,'update'])->name('orders.update');
+Route::delete('/orders/{order}/destroy',[OrderController::class,'destroy'])->name('orders.destroy');
+Route::post('/orders/store',[OrderController::class,'store'])->name('orders.store');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

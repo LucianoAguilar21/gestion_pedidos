@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -12,7 +13,14 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        if(Auth::user()){
+            $user = Auth::user();
+
+            $orders = $user->orders;
+            return view('orders.index')->with(['orders'=>$orders]);        
+        }else{
+            return view('not-found.page-not-found');
+        }
     }
 
     /**
@@ -20,7 +28,14 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        if(Auth::user()){
+            $user = Auth::user();
+
+            $products = $user->products;
+            return view('orders.create')->with(['products'=>$products]);        
+        }else{
+            return view('not-found.page-not-found');
+        }
     }
 
     /**
