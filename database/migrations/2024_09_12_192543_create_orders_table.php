@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('customer_id')->constrained();
+            $table->foreignId('customer_id')->nullable()->constrained();
+            $table->string('customer_name')->nullable();
             $table->enum('status', ['new','pending', 'in_preparation', 'in_delivery', 'delivered', 'cancelled']);
             $table->boolean('delivery')->default(false);
             $table->string('delivery_address')->nullable();

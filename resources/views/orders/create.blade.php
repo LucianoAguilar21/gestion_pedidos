@@ -12,11 +12,23 @@
 
                     <form action="{{ route('orders.store') }}" method="POST">
                         @csrf
-                        <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        
 
-                            <div class="sm:col-span-4">
-                                <label class="block text-gray-700 text-sm font-bold mt-2 te" for="username">
-                                    {{__('Delivery?')}}
+                            <div class="">
+                                <label for="customer_name" class="block text-sm font-bold leading-4 text-gray-900" >{{__('Customer name')}}</label>
+                                <div class="mt-2">
+                                    <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">                                    
+                                        <input type="text" name="customer_name" id="customer_name" 
+                                            autocomplete="customer_name" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" 
+                                            placeholder="Example: Juan José" value="{{old('customer_name')}}" required>
+                                    </div>
+                                    <x-input-error :messages="$errors->get('customer_name')"/>
+                                </div>
+                            </div>
+
+                            <div class="">
+                                <label class="block text-gray-700 text-sm font-bold mt-2 te" for="delivery">
+                                    {{__('¿Delivery?')}}
                                 </label>
                                 @if ($errors->get('address') || $errors->get('delivery_price'))
                                 <div class="flex">
@@ -44,21 +56,21 @@
                                 <x-input-error :messages="$errors->get('delivery')"/>
                             </div>
 
-                            <div class="sm:col-span-4">
-                                <label for="address" class="block text-sm font-bold leading-4 text-gray-900" id="addressLabel">Address</label>
+                            <div class="">
+                                <label for="address" class="block text-sm font-bold leading-4 text-gray-900" id="addressLabel">delivery address</label>
                                 <div class="mt-2">
                                     <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">                                    
-                                        <input type="text" name="address" id="address" 
-                                            autocomplete="address" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" 
-                                            placeholder="Example: address 1111" value="{{old('address')}}">
+                                        <input type="text" name="delivery_address" id="address" 
+                                            autocomplete="delivery_address" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" 
+                                            placeholder="Example: address 1111" value="{{old('delivery_address')}}">
                                     </div>
-                                    <x-input-error :messages="$errors->get('address')"/>
+                                    <x-input-error :messages="$errors->get('delivery_address')"/>
                                 </div>
                             </div>
 
                            
 
-                            <div class="sm:col-span-4">
+                            <div class="">
                                 <label for="delivery_cost" class="block text-sm font-bold leading-4 text-gray-900" id="delivery_cost_label">Delivery Cost</label>
                                 <div class="mt-2">
                                 <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">                                    
@@ -70,32 +82,41 @@
                                 </div>
                             </div>
 
-                            <div class="sm:col-span-4">
+                            <div class="">
                                 <label class="block text-gray-700 text-sm font-bold mt-2" for="delivery_date">
                                     {{__('Delivery date')}}
                                 </label>
-                                <input required class="w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                <input required class="w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline sm:max-w-md"
                                         type="datetime-local" name="delivery_date" id="delivery_date" 
                                         value="{{ old('delivery_date') ? \Carbon\Carbon::parse(old('delivery_date'))->format('Y-m-d\TH:i') : '' }}">
                                 <x-input-error :messages="$errors->get('delivery_date')"/>
                             </div>
 
-                        </div>
-                        
-                        
+                    
+                        <hr class="m-2">
                         <div class="mt-4">
-
-                            <h2 class="font-bold text-2xl">PRODUCTS</h2>
+                            <h2 class="font-bold text-2xl">{{__('Products')}}</h2>
                             <div class="grid lg:gap-x-2 lg:gap-y-4 lg:grid-cols-3 sm:gap-y-2 sm:grid-cols-1  w-full">
                                 @foreach ($products as $product)
                                 <div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow text-center">
-                                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">{{$product->name}}</h5>
-                                    <p class="font-normal text-gray-700 dark:text-gray-400">{{$product->price}}.</p>
+                                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900">{{ $product->name }}</h5>
+                                    <p class="font-normal text-gray-700 dark:text-gray-400">{{ $product->price }}.</p>
+                        
+                                    <div class="flex justify-center items-center mt-4">
+                                        <!-- Botón para disminuir cantidad -->
+                                        <button type="button" class="px-4 py-2 bg-gray-300 text-black rounded" onclick="decreaseQuantity({{ $product->id }})">-</button>
+                                        
+                                        <!-- Input para mostrar y enviar la cantidad -->
+                                        <input type="number" name="products[{{ $product->id }}][quantity]" id="quantity_{{ $product->id }}" class="mx-2 w-16 text-center" value="0" min="0" readonly>
+                                        
+                                        <!-- Botón para aumentar cantidad -->
+                                        <button type="button" class="px-4 py-2 bg-gray-300 text-black rounded" onclick="increaseQuantity({{ $product->id }})">+</button>
+                                    </div>
                                 </div>
                                 @endforeach
-                             
                             </div>
                         </div>
+                        <input class="p-2 m-2 bg-blue-600 rounded text-white cursor-pointer " type="submit" value="Add Order">
                     </form>
                 
                 </div>
@@ -141,4 +162,16 @@
         document.getElementById('address').removeAttribute('required');
         document.getElementById('delivery_cost').removeAttribute('required');
     }
+
+    function increaseQuantity(productId) {
+    let quantityInput = document.getElementById('quantity_' + productId);
+    quantityInput.value = parseInt(quantityInput.value) + 1;
+}
+
+function decreaseQuantity(productId) {
+    let quantityInput = document.getElementById('quantity_' + productId);
+    if (quantityInput.value > 0) {
+        quantityInput.value = parseInt(quantityInput.value) - 1;
+    }
+}
 </script>

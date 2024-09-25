@@ -96,6 +96,9 @@
             <x-responsive-nav-link :href="route('customers')" :active="request()->routeIs('customers*')">
                 {{ __('Customers') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('orders')" :active="request()->routeIs('orders*')">
+                {{ __('Orders') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->

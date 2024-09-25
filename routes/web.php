@@ -41,6 +41,7 @@ Route::get('/orders/{order}/edit',[OrderController::class,'edit'])->name('orders
 Route::put('/orders/{order}',[OrderController::class,'update'])->name('orders.update');
 Route::delete('/orders/{order}/destroy',[OrderController::class,'destroy'])->name('orders.destroy');
 Route::post('/orders/store',[OrderController::class,'store'])->name('orders.store');
+Route::post('/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
 
 
 Route::middleware('auth')->group(function () {

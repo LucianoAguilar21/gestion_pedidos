@@ -16,6 +16,7 @@ class Order extends Model
         'id',
         'user_id',
         'customer_id',
+        'customer_name',
         'status',
         'delivery',
         'delivery_address',

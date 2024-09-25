@@ -15,6 +15,7 @@ class OrderItem extends Model
         'id',
         'order_id',
         'product_id',
+        'quantity',
         'sub_total'
     ];
 
