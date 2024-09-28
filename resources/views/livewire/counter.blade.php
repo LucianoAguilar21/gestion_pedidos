@@ -1,20 +1,46 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Orders') }}
-        </h2>
-    </x-slot>
+
+
+<div>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">                            
                 <div class="p-6 text-gray-900">   
         
-                    <a class="lg:m-4 mx-2 p-2 bg-gray-800 rounded text-white" href="{{ route('orders.create') }}">Create order</a><br>         
+                    <a class="lg:m-4 mx-2 p-2 bg-gray-800 rounded text-white" href="{{ route('orders.create') }}">Create order</a><br>              
 
-                    <div class="m-2 p-1">
-                        {{$orders->links()}}
-                    </div>
+                    {{-- <div class="m-4">
+
+                        <button class="text-gray-800 rounded-full bg-[#daf204] uppercase px-1 py-1 text-sm font-bold transition ease-in-out duration-300  hover:scale-110" wire:click="showNew"> new</button>     
+                        <button class="text-gray-800 rounded-full bg-[#ffcc00] uppercase px-1 py-1 text-sm font-bold transition ease-in-out duration-300  hover:scale-110" wire:click='showPending'> pending</button>
+                        <button class="text-gray-100 rounded-full bg-[#007bff] uppercase px-1 py-1 text-sm font-bold transition ease-in-out duration-300  hover:scale-110"  wire:click='showInPrep'> In Prep</button>
+                        <button class="text-gray-100 rounded-full bg-[#23b100] uppercase px-1 py-1 text-sm font-bold transition ease-in-out duration-300  hover:scale-110" wire:click='showDelivered'> Delivered</button>
+                        <button class="text-gray-100 rounded-full bg-[#ff4d4f] uppercase px-1 py-1 text-sm font-bold transition ease-in-out duration-300  hover:scale-110" wire:click='showCancelled'> Cancelled</button>
+                        
+                        <x-dropdown >
+                            <x-slot name="trigger" >
+                                <button class="text-black font-bold text-xl transition ease-in-out duration-300  hover:scale-110">Filtrar</button>
+                            </x-slot>
+                            <x-slot name="content">
+                                <x-dropdown-link >
+                                    <button class="text-gray-800 rounded-full bg-[#daf204] uppercase px-1 py-1 text-sm font-bold transition ease-in-out duration-300  hover:scale-110" wire:click="showNew"> new</button>
+                                </x-dropdown-link>
+                                <x-dropdown-link >
+                                    <button class="text-gray-800 rounded-full bg-[#ffcc00] uppercase px-1 py-1 text-sm font-bold transition ease-in-out duration-300  hover:scale-110" wire:click='showPending'> pending</button>
+                                </x-dropdown-link>
+                                <x-dropdown-link >
+                                    <button class="text-gray-100 rounded-full bg-[#007bff] uppercase px-1 py-1 text-sm font-bold transition ease-in-out duration-300  hover:scale-110"  wire:click='showInPrep'> In Prep</button>
+                                </x-dropdown-link>
+                                <x-dropdown-link >
+                                    <button class="text-gray-100 rounded-full bg-[#23b100] uppercase px-1 py-1 text-sm font-bold transition ease-in-out duration-300  hover:scale-110" wire:click='showDelivered'> Delivered</button>
+                                </x-dropdown-link>
+                                <x-dropdown-link >
+                                    <button class="text-gray-100 rounded-full bg-[#ff4d4f] uppercase px-1 py-1 text-sm font-bold transition ease-in-out duration-300  hover:scale-110" wire:click='showCancelled'> Cancelled</button>
+                                </x-dropdown-link>
+                               
+                            </x-slot>
+                        </x-dropdown> 
+                    </div> --}}
                     @foreach ($orders as $order) 
                     <div class="sm:w-full  border rounded m-2 p-2">
                             <div class="w-full h-7 flex justify-between">
@@ -50,7 +76,7 @@
                                 </div>
                                 <a class="bg-green-500 text-white p-1 rounded" href="{{route('orders.show',$order)}}"><i class="fa-solid fa-eye"></i></a>
                             </div>
-                                
+                                <small>#{{$order->id}}</small>
                                 @unless($order->created_at->eq($order->updated_at))
                                     <small class="text-sm text-gray-800"> &middot; {{ __('Edited') }}</small><br>                           
                                 @endunless
@@ -60,10 +86,11 @@
                                 <p class="text-sm text-gray-800 font-semibold ">
                                     <span class="text-gray-600 text-sm font-normal">{{__('Customer')}}:</span> {{!is_null($order->customer) ? $order->customer->name . " ".$order->customer->last_name : $order->customer_name}}
                                 </p>
-                                                                    
+                                        
+                            
                                 @if ($order->delivery)
                                     <small >
-                                        <span class="text-sm text-gray-600 ">Entrega:</span> <span class="text-gray-800 text-sm font-semibold">{{ \Carbon\Carbon::parse($order->delivery_date)->isoFormat('dddd D [de] MMMM [a las] H:mm [hs]') }}aaa</span>
+                                        <span class="text-sm text-gray-600 ">Entrega:</span> <span class="text-gray-800 text-sm font-semibold">{{ \Carbon\Carbon::parse($order->delivery_date)->isoFormat('dddd D [de] MMMM [a las] H:mm [hs]') }}</span>
                                     </small>
                                     <br>
                                     <small >
@@ -99,7 +126,10 @@
                         <p class="mt-2 text-base text-gray-800 font-bold">Total: <span class="text-gray-600 text-base font-bold underline">${{$order->total}}</p><span>
                             
                     </div>                   
-                    @endforeach                        
+                    @endforeach      
+                    <div class="m-2 p-1">
+                        {{$orders->links()}}
+                    </div>                  
                 </div>
             </div>
         </div>
@@ -161,4 +191,4 @@
             });
         });
     </script>
-</x-app-layout>
+</div>

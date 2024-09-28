@@ -18,8 +18,8 @@ class OrderController extends Controller
             $user = Auth::user();
 
             // $orders = $user->orders;
-            $orders = $user->orders()->orderBy('created_at', 'desc')->get();
-            return view('orders.index',['orders'=>$orders]);        
+            // $orders = $user->orders()->orderBy('created_at', 'desc')->paginate(10);
+            return view('orders.index',['orders'=>$user->orders()->orderBy('created_at', 'desc')->paginate(5)]);        
         }else{
             return view('not-found.page-not-found');
         }
