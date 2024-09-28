@@ -66,6 +66,7 @@ class OrderController extends Controller
             'status' => 'new', // Estado inicial de la orden
             'delivery' => $request->input('delivery'),
             'delivery_address' => $request->input('delivery_address'),
+            'delivery_date'=> $request->input('delivery_date'),
             'delivery_cost' => $request->input('delivery_cost'),
             'total' => 0, // se calcula más adelante
             'created_at' => now(),

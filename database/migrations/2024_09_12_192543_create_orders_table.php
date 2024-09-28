@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('status', ['new','pending', 'in_preparation', 'in_delivery', 'delivered', 'cancelled']);
             $table->boolean('delivery')->default(false);
             $table->string('delivery_address')->nullable();
+            $table->dateTime('delivery_date');
             $table->decimal('delivery_cost', 8, 2)->nullable();
             $table->decimal('total', 10, 2);
             $table->timestamps();

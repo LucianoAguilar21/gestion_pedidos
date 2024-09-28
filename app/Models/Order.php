@@ -20,6 +20,7 @@ class Order extends Model
         'status',
         'delivery',
         'delivery_address',
+        'delivery_date',
         'delivery_cost',
         'total'
     ];

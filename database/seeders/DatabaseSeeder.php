@@ -23,9 +23,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
             'password'=> password_hash('123123', PASSWORD_BCRYPT)
         ]);
-        Product::factory(10)->create();
-        Customer::factory(1)->create();
-        Order::factory(1)->create();
-        OrderItem::factory(4)->create();
+        // Product::factory(10)->create();
+        // Customer::factory(1)->create();
+        // Order::factory(1)->create();
+        // OrderItem::factory(4)->create();
     }
 }
