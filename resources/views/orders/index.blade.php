@@ -10,11 +10,11 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">                            
                 <div class="p-6 text-gray-900">   
         
-                    <a class="m-4 p-2 bg-gray-800 rounded text-white" href="{{ route('orders.create') }}">Create order</a><br>         
+                    <a class="m-2 p-2 bg-gray-800 rounded text-white" href="{{ route('orders.create') }}">Create order</a><br>         
 
 
                     @foreach ($orders as $order) 
-                    <div class="sm:w-full  border rounded m-2 p-2">
+                        <div class="sm:w-full  border rounded m-2 p-2">
                             <div class="w-full h-7 flex justify-between">
                                 <div>
                                                   
@@ -95,9 +95,9 @@
                                 </div>  
                         
                         
-                        <p class="mt-2 text-base text-gray-800 font-bold">Total: <span class="text-gray-600 text-base font-bold underline">${{$order->total}}</p><span>
+                            <p class="mt-2 text-base text-gray-800 font-bold">Total: <span class="text-gray-600 text-base font-bold underline">${{$order->total}}</p><span>
                             
-                    </div>
+                        </div>
                     @endforeach              
                 </div>
             </div>

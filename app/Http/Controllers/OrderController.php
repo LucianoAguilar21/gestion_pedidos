@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class OrderController extends Controller
 {
@@ -58,7 +59,11 @@ class OrderController extends Controller
             'products.*.quantity' => 'required|integer|min:0', // Validar que cada producto tenga cantidad
         ]);
         
-    // Crear la orden
+        if(count($request->products)){
+            return redirect()->route('orders')->with('failed', 'Order no created. Products is empty!');
+        }
+
+        // Crear la orden
         $order = Order::create([
             'user_id' => $user->id,
             'customer_id' => $request->input('customer_id'),
@@ -71,7 +76,9 @@ class OrderController extends Controller
             'total' => 0, // se calcula más adelante
             'created_at' => now(),
             'updated_at' => now(),
-        ]);   
+        ]);
+        
+        
 
         $total = 0;
 
@@ -97,6 +104,8 @@ class OrderController extends Controller
             'total' => $total + $request->delivery_cost,
         ]);
 
+        
+
         return redirect()->route('orders')->with('status', 'Order created successfully!');
     }
 
@@ -105,7 +114,13 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        // return view('orders.show',['order'=> $order]);
+        if(Gate::authorize('view', $order)){
+            return view('orders.show')->with(['order'=>$order]);
+        }
+        
+        return route('orders');
+        
     }
 
     /**

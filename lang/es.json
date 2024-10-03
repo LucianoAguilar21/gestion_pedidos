@@ -265,5 +265,7 @@
     "Orders":"Pedidos",
     "Customers":"Clientes",
     "Customer":"Cliente",
-    "Customer name": "Nombre del cliente"
+    "Customer name": "Nombre del cliente",
+    "Create new order":"Crear nuevo pedido",
+    "Add order":"Agregar pedido"
 }

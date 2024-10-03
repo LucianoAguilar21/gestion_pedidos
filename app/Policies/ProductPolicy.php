@@ -21,7 +21,7 @@ class ProductPolicy
      */
     public function view(User $user, Product $product): Response
     {
-        return $user->id === $product->user_id ? Response::allow()
+        return $user->is($product->user) ? Response::allow()
         : Response::deny('You do not own this product.');
     }
 

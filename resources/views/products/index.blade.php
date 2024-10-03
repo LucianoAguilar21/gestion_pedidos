@@ -9,8 +9,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">                            
                 <div class="p-6 text-gray-900 ">                
-                    <a class="m-2 p-2 bg-gray-800 rounded text-white" href="{{ route('products.create') }}">Create Product</a>
-                    <table class="table-auto m-4 w-full  ">
+                    <a class=" p-2 bg-gray-800 rounded text-white" href="{{ route('products.create') }}">Create Product</a>
+                    <table class="table-auto mt-4 w-full  ">
                         <thead>
                           <tr class="">
                             <th class="border border-slate-600 hidden lg:block">ID</th>

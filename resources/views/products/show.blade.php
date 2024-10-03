@@ -1,5 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
+        <a href="{{ url()->previous() }}"><i class="fa-solid fa-left-long border-2 rounded-full p-2 mb-2"></i></a>
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Details') }}
         </h2>

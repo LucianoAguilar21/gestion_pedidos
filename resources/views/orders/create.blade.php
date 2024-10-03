@@ -1,5 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
+        <a href="{{ url()->previous() }}"><i class="fa-solid fa-left-long border-2 rounded-full p-2 mb-2"></i></a>
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Create new order') }}
         </h2>
@@ -8,12 +9,11 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-
+                <div class=" p-6 text-gray-900">    
+                    
                     <form action="{{ route('orders.store') }}" method="POST">
+                       
                         @csrf
-                        
-
                             <div class="">
                                 <label for="customer_name" class="block text-sm font-bold leading-4 text-gray-900" >{{__('Customer name')}}</label>
                                 <div class="mt-2">
@@ -26,6 +26,8 @@
                                 </div>
                             </div>
 
+                            
+
                             <div class="">
                                 <label class="block text-gray-700 text-sm font-bold mt-2 te" for="delivery">
                                     {{__('¿Delivery?')}}
@@ -34,22 +36,22 @@
                                 <div class="flex">
                                     <div class="">
                                         <input type="radio" name="delivery" id="inlineRadio1" value="1" onclick="enableAddress()">
-                                        <label class="text-gray-700 text-sm font-bold mb-2 " for="inlineRadio1">Si</label>
+                                        <label class="text-gray-700 text-sm font-bold mb-2 " for="inlineRadio1">{{__('Yes')}}</label>
                                     </div>
                                     <div class="mx-5">
                                         <input checked type="radio" name="delivery" id="inlineRadio2" value="0" onclick="disableAddress()">
-                                        <label class="text-gray-700 text-sm font-bold mb-2 " for="inlineRadio2" >No</label>
+                                        <label class="text-gray-700 text-sm font-bold mb-2 " for="inlineRadio2" >{{__('No')}}</label>
                                     </div>
                                 </div>
                                 @else                                                
                                     <div class="flex">
                                         <div class="">
                                             <input type="radio" name="delivery" id="inlineRadio3" value="1" onclick="enableAddress()">
-                                            <label class="text-gray-700 text-sm font-bold mb-2 " for="inlineRadio3">Si</label>
+                                            <label class="text-gray-700 text-sm font-bold mb-2 " for="inlineRadio3">{{__('Yes')}}</label>
                                         </div>
                                         <div class="mx-5">
                                             <input checked type="radio" name="delivery" id="inlineRadio4" value="0" onclick="disableAddress()">
-                                            <label class="text-gray-700 text-sm font-bold mb-2" for="inlineRadio4" >No</label>
+                                            <label class="text-gray-700 text-sm font-bold mb-2" for="inlineRadio4" >{{__('No')}}</label>
                                         </div>
                                     </div>
                                 @endif
@@ -90,7 +92,7 @@
                                         type="datetime-local" name="delivery_date" id="delivery_date" 
                                         value="{{ old('delivery_date') ? \Carbon\Carbon::parse(old('delivery_date'))->format('Y-m-d\TH:i') : '' }}">
                                 <x-input-error :messages="$errors->get('delivery_date')"/>
-                            </div>
+                            </div>                
 
                     
                         <hr class="m-2">
@@ -104,19 +106,26 @@
                         
                                     <div class="flex justify-center items-center mt-4">
                                         <!-- Botón para disminuir cantidad -->
-                                        <button type="button" class="px-4 py-2 bg-gray-300 text-black rounded" onclick="decreaseQuantity({{ $product->id }})">-</button>
+                                        <button type="button" class="px-4 py-2 bg-gray-300 text-black rounded" onclick="decreaseQuantity({{ $product->id }},{{$product->price}})">-</button>
                                         
                                         <!-- Input para mostrar y enviar la cantidad -->
                                         <input type="number" name="products[{{ $product->id }}][quantity]" id="quantity_{{ $product->id }}" class="mx-2 w-16 text-center" value="0" min="0" readonly>
                                         
                                         <!-- Botón para aumentar cantidad -->
-                                        <button type="button" class="px-4 py-2 bg-gray-300 text-black rounded" onclick="increaseQuantity({{ $product->id }})">+</button>
+                                        <button type="button" class="px-4 py-2 bg-gray-300 text-black rounded" onclick="increaseQuantity({{ $product->id }},{{$product->price}})">+</button>
                                     </div>
                                 </div>
                                 @endforeach
                             </div>
                         </div>
-                        <input class="p-2 m-2 bg-blue-600 rounded text-white cursor-pointer " type="submit" value="Add Order">
+                        
+                        <div class="border rounded w-[100px] text-center m-2 bg-[#00065c]/10">
+                            <label class=" text-gray-700 text-sm font-bold">
+                               <span>{{__('Total')}}:</span> <p id="total">0.00</p>
+                            </label>
+                        </div>
+
+                        <input class="p-2 m-2 bg-blue-600 rounded text-white cursor-pointer " type="submit" value="{{__('Add order')}}">
                     </form>
                 
                 </div>
@@ -126,7 +135,7 @@
 
 </x-app-layout>
 <script>
-    
+    let total = 0;
 
     if(document.getElementById("address").value.trim() !== '' ||
         document.getElementById("delivery_cost").value.trim() !== ''     
@@ -163,15 +172,28 @@
         document.getElementById('delivery_cost').removeAttribute('required');
     }
 
-    function increaseQuantity(productId) {
-    let quantityInput = document.getElementById('quantity_' + productId);
-    quantityInput.value = parseInt(quantityInput.value) + 1;
-}
+    // Aumentar la cantidad de un producto
+    function increaseQuantity(productId, price) {
+        let quantityInput = document.getElementById('quantity_' + productId);
+        quantityInput.value = parseInt(quantityInput.value) + 1;
 
-function decreaseQuantity(productId) {
-    let quantityInput = document.getElementById('quantity_' + productId);
-    if (quantityInput.value > 0) {
-        quantityInput.value = parseInt(quantityInput.value) - 1;
+         // Actualizar el total
+        total += price;
+        updateTotalDisplay();
     }
-}
+
+    function decreaseQuantity(productId, price) {
+        let quantityInput = document.getElementById('quantity_' + productId);
+        if (quantityInput.value > 0) {
+            quantityInput.value = parseInt(quantityInput.value) - 1;
+            total -= price;
+            updateTotalDisplay();
+        }
+        // Actualizar el total
+        
+    }
+      // Función para actualizar el total mostrado en la página
+      function updateTotalDisplay() {
+        document.getElementById('total').textContent = total.toFixed(2); // Mostrar con 2 decimales
+    }
 </script>
